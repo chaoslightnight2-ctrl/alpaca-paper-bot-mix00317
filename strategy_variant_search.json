@@ -1,0 +1,526 @@
+{
+  "finalists": [
+    {
+      "name": "long_no_prevday_only",
+      "edge_names": [
+        "long_e1_x60_00084"
+      ],
+      "mods": {
+        "long_e1_x60_00084": [
+          "prev_day_ret > 0.007851"
+        ]
+      },
+      "weights": [
+        1.0
+      ],
+      "historical": {
+        "final_equity": 1124679272.5268872,
+        "max_drawdown_pct": -68.89656737080747,
+        "win_trade_days_pct": 58.79518072289157,
+        "trade_days": 830,
+        "profit_factor": 1.833416658174917,
+        "years_pct": {
+          "2023": 12130.430407807455,
+          "2024": 2504.4003499744927,
+          "2025": 1112.3089676991058,
+          "2026": 191.24996894930365
+        },
+        "ratio_2023_2025": 10.905630324009845,
+        "min_2026_required_pct": 1312.2616437900876,
+        "passes_2026_quarter_rule": false
+      },
+      "mc": {
+        "final_equity_tl": {
+          "p1": 14372.817919585059,
+          "p5": 35931.73545663232,
+          "p25": 137312.52037871428,
+          "p50": 343336.4499527578,
+          "p75": 848916.5733214866,
+          "p95": 3159660.6068266123,
+          "p99": 7723319.7486898545
+        },
+        "return_pct": {
+          "p1": 43.72817919585059,
+          "p5": 259.3173545663232,
+          "p25": 1273.1252037871427,
+          "p50": 3333.364499527578,
+          "p75": 8389.165733214866,
+          "p95": 31496.606068266123,
+          "p99": 77133.19748689854
+        },
+        "max_drawdown_pct": {
+          "p1": -84.26335127712386,
+          "p5": -75.51355451606021,
+          "p25": -61.442730817394356,
+          "p50": -52.045906244715184,
+          "p75": -43.18598433758161,
+          "p95": -33.056275020458706,
+          "p99": -27.94334355002443
+        },
+        "loss_probability_pct": 0.512,
+        "prob_final_above_50k_pct": 92.172
+      },
+      "operational": {
+        "github_current_base": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 25311.09331908023,
+            "p50": 213566.14548999214,
+            "p95": 1765254.8015865153
+          },
+          "loss_probability_pct": 0.95
+        },
+        "github_improved_loop_base": {
+          "entry_capture_prob": 0.97,
+          "close_capture_prob": 0.985,
+          "final_equity_tl": {
+            "p5": 31171.460527465915,
+            "p50": 284868.9988582303,
+            "p95": 2536216.0190775436
+          },
+          "loss_probability_pct": 0.72
+        },
+        "github_improved_loop_conservative": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 24782.933297897947,
+            "p50": 211852.93785823043,
+            "p95": 1725094.3354068045
+          },
+          "loss_probability_pct": 0.9860000000000001
+        },
+        "github_bad_cron_stress_after_loop": {
+          "entry_capture_prob": 0.65,
+          "close_capture_prob": 0.88,
+          "final_equity_tl": {
+            "p5": 13340.539059199833,
+            "p50": 83557.7253920502,
+            "p95": 505591.88362542476
+          },
+          "loss_probability_pct": 2.934
+        }
+      }
+    },
+    {
+      "name": "long_only",
+      "edge_names": [
+        "long_e1_x60_00084"
+      ],
+      "mods": {},
+      "weights": [
+        1.0
+      ],
+      "historical": {
+        "final_equity": 65820762.75003267,
+        "max_drawdown_pct": -65.75291750014995,
+        "win_trade_days_pct": 58.24345146379045,
+        "trade_days": 649,
+        "profit_factor": 1.837704723185053,
+        "years_pct": {
+          "2023": 7838.120948076505,
+          "2024": 1415.9741066441804,
+          "2025": 80.25344583645149,
+          "2026": 203.4379110163822
+        },
+        "ratio_2023_2025": 97.66709536746637,
+        "min_2026_required_pct": 777.862375046428,
+        "passes_2026_quarter_rule": false
+      },
+      "mc": {
+        "final_equity_tl": {
+          "p1": 15536.745871215728,
+          "p5": 37810.53992736192,
+          "p25": 131712.5058284474,
+          "p50": 308878.8493371591,
+          "p75": 716092.2541462294,
+          "p95": 2414845.244419744,
+          "p99": 5569422.917588301
+        },
+        "return_pct": {
+          "p1": 55.36745871215727,
+          "p5": 278.1053992736192,
+          "p25": 1217.125058284474,
+          "p50": 2988.7884933715904,
+          "p75": 7060.922541462294,
+          "p95": 24048.452444197435,
+          "p99": 55594.22917588302
+        },
+        "max_drawdown_pct": {
+          "p1": -82.2463434249633,
+          "p5": -72.82202925177901,
+          "p25": -58.54393359178008,
+          "p50": -48.907631440914045,
+          "p75": -39.19116660874192,
+          "p95": -30.028108829229406,
+          "p99": -25.367619907808308
+        },
+        "loss_probability_pct": 0.384,
+        "prob_final_above_50k_pct": 92.308
+      },
+      "operational": {
+        "github_current_base": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 26597.784262223373,
+            "p50": 197321.58463588875,
+            "p95": 1383864.6551470961
+          },
+          "loss_probability_pct": 0.73
+        },
+        "github_improved_loop_base": {
+          "entry_capture_prob": 0.97,
+          "close_capture_prob": 0.985,
+          "final_equity_tl": {
+            "p5": 32150.470682876334,
+            "p50": 259764.2304437384,
+            "p95": 1944623.4633828737
+          },
+          "loss_probability_pct": 0.5539999999999999
+        },
+        "github_improved_loop_conservative": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 26541.988979614067,
+            "p50": 190476.651082633,
+            "p95": 1321598.2382685053
+          },
+          "loss_probability_pct": 0.766
+        },
+        "github_bad_cron_stress_after_loop": {
+          "entry_capture_prob": 0.65,
+          "close_capture_prob": 0.88,
+          "final_equity_tl": {
+            "p5": 14146.061244821403,
+            "p50": 77712.67967172014,
+            "p95": 413169.90276592213
+          },
+          "loss_probability_pct": 2.408
+        }
+      }
+    },
+    {
+      "name": "long_no_prevday_plus_s00514",
+      "edge_names": [
+        "long_e1_x60_00084",
+        "short_e2_x60_00514"
+      ],
+      "mods": {
+        "long_e1_x60_00084": [
+          "prev_day_ret > 0.007851"
+        ]
+      },
+      "weights": [
+        0.8570405267784772,
+        0.14295947322152272
+      ],
+      "historical": {
+        "final_equity": 552679440.8845865,
+        "max_drawdown_pct": -52.86912995069854,
+        "win_trade_days_pct": 58.844765342960294,
+        "trade_days": 831,
+        "profit_factor": 1.891573886334561,
+        "years_pct": {
+          "2023": 6855.212058678563,
+          "2024": 1833.4246423836178,
+          "2025": 1519.4733386889332,
+          "2026": 153.7826228685569
+        },
+        "ratio_2023_2025": 4.511571137268874,
+        "min_2026_required_pct": 850.6758366459262,
+        "passes_2026_quarter_rule": false
+      },
+      "mc": {
+        "final_equity_tl": {
+          "p1": 20553.245017489007,
+          "p5": 44537.505040984084,
+          "p25": 129908.93427674417,
+          "p50": 273766.6923242464,
+          "p75": 582075.3792221444,
+          "p95": 1720025.9999846737,
+          "p99": 3742313.3006912675
+        },
+        "return_pct": {
+          "p1": 105.53245017489007,
+          "p5": 345.37505040984087,
+          "p25": 1199.0893427674416,
+          "p50": 2637.666923242464,
+          "p75": 5720.753792221443,
+          "p95": 17100.259999846738,
+          "p99": 37323.13300691267
+        },
+        "max_drawdown_pct": {
+          "p1": -72.46920878376436,
+          "p5": -63.06972395024337,
+          "p25": -49.86431043136268,
+          "p50": -41.93644724080718,
+          "p75": -35.29564885110457,
+          "p95": -27.81838262650755,
+          "p99": -23.443780734990927
+        },
+        "loss_probability_pct": 0.164,
+        "prob_final_above_50k_pct": 93.84
+      },
+      "operational": {
+        "github_current_base": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 31402.89476928201,
+            "p50": 177270.3390957337,
+            "p95": 1045118.1719824462
+          },
+          "loss_probability_pct": 0.34199999999999997
+        },
+        "github_improved_loop_base": {
+          "entry_capture_prob": 0.97,
+          "close_capture_prob": 0.985,
+          "final_equity_tl": {
+            "p5": 37429.40196989093,
+            "p50": 230055.44745015382,
+            "p95": 1426632.178840622
+          },
+          "loss_probability_pct": 0.24
+        },
+        "github_improved_loop_conservative": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 30543.23456612844,
+            "p50": 172662.74406655433,
+            "p95": 995598.6434108417
+          },
+          "loss_probability_pct": 0.32399999999999995
+        },
+        "github_bad_cron_stress_after_loop": {
+          "entry_capture_prob": 0.65,
+          "close_capture_prob": 0.88,
+          "final_equity_tl": {
+            "p5": 16161.420637560881,
+            "p50": 71044.54955245994,
+            "p95": 317054.4585328222
+          },
+          "loss_probability_pct": 1.432
+        }
+      }
+    },
+    {
+      "name": "remove_all_weak_shorts_keep_long_s00782_no_qfq",
+      "edge_names": [
+        "long_e1_x60_00084",
+        "short_e2_x60_00782"
+      ],
+      "mods": {
+        "long_e1_x60_00084": [
+          "prev_day_ret > 0.007851"
+        ],
+        "short_e2_x60_00782": [
+          "qqq_early <= 0.003664",
+          "first_range <= 0.038648",
+          "vwap_dist > -0.004410"
+        ]
+      },
+      "weights": [
+        0.7960714449908859,
+        0.20392855500911417
+      ],
+      "historical": {
+        "final_equity": 494991072.5670911,
+        "max_drawdown_pct": -53.632490864492645,
+        "win_trade_days_pct": 58.82352941176471,
+        "trade_days": 833,
+        "profit_factor": 1.9200797734246688,
+        "years_pct": {
+          "2023": 6229.864914952673,
+          "2024": 1853.1943577336474,
+          "2025": 1345.1228373737918,
+          "2026": 177.046519831653
+        },
+        "ratio_2023_2025": 4.631446840286956,
+        "min_2026_required_pct": 785.6818425050093,
+        "passes_2026_quarter_rule": false
+      },
+      "mc": {
+        "final_equity_tl": {
+          "p1": 21060.467831818005,
+          "p5": 44431.64112819407,
+          "p25": 127797.59999676139,
+          "p50": 261810.83503139444,
+          "p75": 541666.9561761209,
+          "p95": 1534788.0585347272,
+          "p99": 3171614.2018259033
+        },
+        "return_pct": {
+          "p1": 110.60467831818004,
+          "p5": 344.31641128194065,
+          "p25": 1177.975999967614,
+          "p50": 2518.1083503139444,
+          "p75": 5316.6695617612095,
+          "p95": 15247.880585347271,
+          "p99": 31616.142018259034
+        },
+        "max_drawdown_pct": {
+          "p1": -71.43386572185763,
+          "p5": -62.19582913443163,
+          "p25": -49.22018176902438,
+          "p50": -41.2347179443191,
+          "p75": -34.45491546170507,
+          "p95": -26.57149985736259,
+          "p99": -22.270173294612448
+        },
+        "loss_probability_pct": 0.13,
+        "prob_final_above_50k_pct": 93.796
+      },
+      "operational": {
+        "github_current_base": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 30894.816187688702,
+            "p50": 171312.62065149157,
+            "p95": 928910.5819208381
+          },
+          "loss_probability_pct": 0.38
+        },
+        "github_improved_loop_base": {
+          "entry_capture_prob": 0.97,
+          "close_capture_prob": 0.985,
+          "final_equity_tl": {
+            "p5": 38600.62631189829,
+            "p50": 219868.67055765033,
+            "p95": 1272896.6068324533
+          },
+          "loss_probability_pct": 0.21
+        },
+        "github_improved_loop_conservative": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 31043.24584173572,
+            "p50": 167102.78229022358,
+            "p95": 905415.9587932915
+          },
+          "loss_probability_pct": 0.35200000000000004
+        },
+        "github_bad_cron_stress_after_loop": {
+          "entry_capture_prob": 0.65,
+          "close_capture_prob": 0.88,
+          "final_equity_tl": {
+            "p5": 16513.11789452698,
+            "p50": 69701.86969624061,
+            "p95": 297849.1518594973
+          },
+          "loss_probability_pct": 1.406
+        }
+      }
+    },
+    {
+      "name": "long_no_prevday_plus_s00782",
+      "edge_names": [
+        "long_e1_x60_00084",
+        "short_e2_x60_00782"
+      ],
+      "mods": {
+        "long_e1_x60_00084": [
+          "prev_day_ret > 0.007851"
+        ]
+      },
+      "weights": [
+        0.7960714449908859,
+        0.20392855500911417
+      ],
+      "historical": {
+        "final_equity": 349545340.7067014,
+        "max_drawdown_pct": -58.03835174181684,
+        "win_trade_days_pct": 59.13461538461539,
+        "trade_days": 832,
+        "profit_factor": 1.8929563718718483,
+        "years_pct": {
+          "2023": 5195.477355315391,
+          "2024": 2015.9769680829045,
+          "2025": 1018.4300799502773,
+          "2026": 178.91933898327014
+        },
+        "ratio_2023_2025": 5.101457093224357,
+        "min_2026_required_pct": 685.8237002790478,
+        "passes_2026_quarter_rule": false
+      },
+      "mc": {
+        "final_equity_tl": {
+          "p1": 18666.615028423807,
+          "p5": 39117.225563016356,
+          "p25": 113902.76885841413,
+          "p50": 239326.47533243676,
+          "p75": 493813.4634044519,
+          "p95": 1425494.5722368457,
+          "p99": 3016955.813566538
+        },
+        "return_pct": {
+          "p1": 86.66615028423807,
+          "p5": 291.17225563016353,
+          "p25": 1039.0276885841413,
+          "p50": 2293.2647533243676,
+          "p75": 4838.134634044519,
+          "p95": 14154.945722368459,
+          "p99": 30069.558135665382
+        },
+        "max_drawdown_pct": {
+          "p1": -73.92655032327316,
+          "p5": -64.24964123138189,
+          "p25": -50.603333299696345,
+          "p50": -42.29021139033702,
+          "p75": -34.90276469854691,
+          "p95": -26.478992550311617,
+          "p99": -22.23290359308627
+        },
+        "loss_probability_pct": 0.192,
+        "prob_final_above_50k_pct": 92.23400000000001
+      },
+      "operational": {
+        "github_current_base": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 28375.24500042902,
+            "p50": 155809.95793250966,
+            "p95": 854258.0276125203
+          },
+          "loss_probability_pct": 0.432
+        },
+        "github_improved_loop_base": {
+          "entry_capture_prob": 0.97,
+          "close_capture_prob": 0.985,
+          "final_equity_tl": {
+            "p5": 34032.594695669904,
+            "p50": 201278.8711010535,
+            "p95": 1179812.7580348991
+          },
+          "loss_probability_pct": 0.294
+        },
+        "github_improved_loop_conservative": {
+          "entry_capture_prob": 0.9,
+          "close_capture_prob": 0.95,
+          "final_equity_tl": {
+            "p5": 27813.93739045065,
+            "p50": 152413.47652954393,
+            "p95": 829877.9453582694
+          },
+          "loss_probability_pct": 0.47200000000000003
+        },
+        "github_bad_cron_stress_after_loop": {
+          "entry_capture_prob": 0.65,
+          "close_capture_prob": 0.88,
+          "final_equity_tl": {
+            "p5": 15312.236398979208,
+            "p50": 65476.18903913541,
+            "p95": 282853.4407567252
+          },
+          "loss_probability_pct": 1.672
+        }
+      }
+    }
+  ]
+}

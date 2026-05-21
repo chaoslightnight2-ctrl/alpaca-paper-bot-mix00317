@@ -102,6 +102,22 @@ def main() -> None:
             "missed_close_tail_prob": 0.01,
             "missed_close_tail_loss": 0.015,
         },
+        "github_looped_auto_window_base": {
+            "entry_capture_prob": 0.97,
+            "close_capture_prob": 0.985,
+            "extra_cost_bps": 3.0,
+            "delayed_close_penalty_bps": 6.0,
+            "missed_close_tail_prob": 0.004,
+            "missed_close_tail_loss": 0.010,
+        },
+        "github_looped_auto_window_conservative": {
+            "entry_capture_prob": 0.90,
+            "close_capture_prob": 0.95,
+            "extra_cost_bps": 5.0,
+            "delayed_close_penalty_bps": 12.0,
+            "missed_close_tail_prob": 0.010,
+            "missed_close_tail_loss": 0.015,
+        },
         "github_delayed_conservative": {
             "entry_capture_prob": 0.70,
             "close_capture_prob": 0.85,

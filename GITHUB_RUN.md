@@ -33,7 +33,7 @@ Actions -> Alpaca Paper Bot -> Run workflow.
 
 - `mode=dry_run`: sinyal ve emirleri loglar, paper emir gondermez.
 - `mode=execute`: Alpaca paper hesaba emir gonderir.
-- `run_type=auto_window`: once vadesi gelen cikislari kontrol eder, sonra giris penceresindeyse yeni trade arar.
+- `run_type=auto_window`: kisa loop boyunca broker/state cikislarini ve giris penceresini birlikte kontrol eder.
 - `run_type=entry_window`: giris penceresinde yeni trade arar.
 - `run_type=close_due`: Alpaca broker order history'den bugunku bot emirlerini bulur ve vadesi gelen cikislari kapatir.
 - `max_minutes=35`: 35 dakika loop calisir ve sonra temiz cikar.
@@ -42,7 +42,7 @@ Zamanlama ve Cron Gecikmesi:
 
 - Stratejinin giris penceresi Turkiye saatiyle yaklasik `16:40-17:00`.
 - GitHub cron bazen saatlerce gec baslayabildigi icin workflow tek saate guvenmez.
-- Hafta ici `12:00-20:50 UTC` arasinda her 10 dakikada kisa `auto_window` kontrolu calisir.
+- Hafta ici `12:00-20:55 UTC` arasinda her 5 dakikada kisa `auto_window` loop'u calisir.
 - Her kontrol once broker order history'den vadesi gelen bot pozisyonlarini kapatmayi dener, sonra giris penceresindeyse yeni trade arar.
 - Bot Alpaca `client_order_id` gecmisini kontrol eder; ayni gun ayni sleeve/sembol icin duplicate open gondermeyi skip eder.
 - Scheduled run'lar varsayilan olarak dry-run calisir. Otomatik paper emir istiyorsan repo variable ekle:

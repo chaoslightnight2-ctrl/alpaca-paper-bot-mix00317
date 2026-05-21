@@ -50,8 +50,10 @@
     "source": "operational_monte_carlo_1y.json",
     "ideal_exact_window_p50": 87457.40528863981,
     "github_frequent_checks_base_p50": 62835.30262318291,
-    "github_delayed_conservative_p50": 36252.947211525796,
-    "github_bad_cron_stress_p50": 18843.207741229926,
-    "note": "This adjusts the fixed strategy daily-return MC for GitHub scheduling/missed entry/delayed close/extra execution costs."
+    "github_looped_auto_window_base_p50": 75815.82780415201,
+    "github_looped_auto_window_conservative_p50": 61684.87759364229,
+    "github_delayed_conservative_p50": 36276.51749344966,
+    "github_bad_cron_stress_p50": 18750.806785828285,
+    "note": "Looped auto-window adjusts the fixed strategy daily-return MC for more frequent GitHub checks, repeated entry checks, broker-history exits, delayed close risk, and extra execution costs."
   }
 }

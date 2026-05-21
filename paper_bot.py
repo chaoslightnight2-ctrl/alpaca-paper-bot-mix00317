@@ -654,12 +654,16 @@ def main() -> None:
     parser.add_argument("--now", help="Test için ISO zaman override, örn 2026-05-20T10:00:00-04:00.")
     parser.add_argument("--max-minutes", type=float, default=0.0, help="Loop modunda bu dakika dolunca temiz cik. GitHub Actions icin.")
     parser.add_argument("--close-due-from-broker", action="store_true", help="State dosyasi olmadan Alpaca order history'den bugunku bot pozisyonlarini kapat.")
+    parser.add_argument("--auto-window", action="store_true", help="Her turda broker cikislarini ve yeni giris penceresini birlikte kontrol et.")
     args = parser.parse_args()
     args.dry_run = not args.execute
     started = time.monotonic()
     while True:
         try:
-            if args.close_due_from_broker:
+            if args.auto_window:
+                close_due_from_broker(args)
+                run_once(args)
+            elif args.close_due_from_broker:
                 close_due_from_broker(args)
             else:
                 run_once(args)

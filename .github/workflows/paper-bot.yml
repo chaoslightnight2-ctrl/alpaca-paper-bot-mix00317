@@ -26,15 +26,19 @@ on:
           - close_due
   schedule:
     # GitHub scheduled jobs can start late. Instead of trusting one exact cron,
-    # run short checks every 10 minutes through the US market/paper-bot window.
+    # run short looped checks every 5 minutes through the US market/paper-bot window.
     # Each run checks due exits from broker history and then checks entry timing.
     # Broker client_order_id duplicate guard prevents duplicate opens.
-    - cron: "*/10 12-20 * * 1-5"
+    - cron: "*/5 12-20 * * 1-5"
+
+concurrency:
+  group: alpaca-paper-bot
+  cancel-in-progress: false
 
 jobs:
   paper-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
       ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
@@ -84,7 +88,11 @@ jobs:
           fi
 
           if [ "$MAX_MINUTES" = "0" ]; then
-            MAX_MINUTES="1"
+            if [ "$RUN_TYPE" = "auto_window" ]; then
+              MAX_MINUTES="8"
+            else
+              MAX_MINUTES="1"
+            fi
           fi
 
           if [ "$MODE" = "execute" ]; then
@@ -94,8 +102,7 @@ jobs:
           fi
 
           if [ "$RUN_TYPE" = "auto_window" ]; then
-            python paper_bot.py $EXEC_FLAG --close-due-from-broker
-            python paper_bot.py $EXEC_FLAG
+            python paper_bot.py $EXEC_FLAG --auto-window --loop --max-minutes "$MAX_MINUTES"
           elif [ "$RUN_TYPE" = "close_due" ]; then
             if [ "$MAX_MINUTES" = "1" ]; then
               python paper_bot.py $EXEC_FLAG --close-due-from-broker

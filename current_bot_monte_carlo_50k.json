@@ -45,5 +45,13 @@
     "p95": -11.862342208900825,
     "p99": -10.061834771051162
   },
-  "note": "New mix_00317 paper config Monte Carlo. Paper-only; live trading is not enabled."
+  "note": "New mix_00317 paper config Monte Carlo. Paper-only; live trading is not enabled.",
+  "operational_monte_carlo_1y": {
+    "source": "operational_monte_carlo_1y.json",
+    "ideal_exact_window_p50": 87457.40528863981,
+    "github_frequent_checks_base_p50": 62835.30262318291,
+    "github_delayed_conservative_p50": 36252.947211525796,
+    "github_bad_cron_stress_p50": 18843.207741229926,
+    "note": "This adjusts the fixed strategy daily-return MC for GitHub scheduling/missed entry/delayed close/extra execution costs."
+  }
 }

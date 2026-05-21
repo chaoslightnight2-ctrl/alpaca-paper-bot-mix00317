@@ -1,0 +1,49 @@
+{
+  "strategy_name": "mix_00317_intraday_feature_combo_no_lookahead_paper",
+  "source": "qunatskills/checkpoints/intraday_feature_combo_search_v2_fast/paper_config_one_year_monte_carlo_mix_00317.json",
+  "initial_capital": 10000.0,
+  "horizon_trading_days": 252,
+  "mc_paths": 50000,
+  "weighted_gross_leverage": 1.8245852014904538,
+  "paper_config_p50": 87132.30125630564,
+  "paper_config_p1": 25380.026356639708,
+  "paper_config_p5": 36176.4865785131,
+  "paper_config_p95": 215403.55714485713,
+  "loss_probability_pct": 0.0,
+  "historical_final_equity": 11781666.502607392,
+  "historical_max_drawdown_pct": -18.34499673643908,
+  "years_pct": {
+    "2023": 632.173967975803,
+    "2024": 547.694551635136,
+    "2025": 868.1754311633663,
+    "2026": 156.60678772677122
+  },
+  "final_equity_tl": {
+    "p1": 25380.026356639708,
+    "p5": 36176.4865785131,
+    "p25": 60514.418141074326,
+    "p50": 87132.30125630564,
+    "p75": 125615.39601190611,
+    "p95": 215403.55714485713,
+    "p99": 316364.5730620349
+  },
+  "return_pct": {
+    "p1": 153.8002635663971,
+    "p5": 261.764865785131,
+    "p25": 505.1441814107433,
+    "p50": 771.3230125630565,
+    "p75": 1156.153960119061,
+    "p95": 2054.0355714485713,
+    "p99": 3063.645730620349
+  },
+  "max_drawdown_pct": {
+    "p1": -36.20147763438215,
+    "p5": -29.569231926617896,
+    "p25": -22.171704918472486,
+    "p50": -18.287335390031146,
+    "p75": -15.232434917277892,
+    "p95": -11.862342208900825,
+    "p99": -10.061834771051162
+  },
+  "note": "New mix_00317 paper config Monte Carlo. Paper-only; live trading is not enabled."
+}

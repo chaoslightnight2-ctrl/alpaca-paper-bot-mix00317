@@ -1,0 +1,68 @@
+# GitHub'da Calistirma
+
+Bu repo Alpaca paper bot icindir. Live trading etkin degildir.
+
+## 1. Repo'ya Yukleme
+
+Bu makinede `git` ve `gh` PATH'te yok. GitHub Desktop ile klasoru repo olarak ekleyebilir veya Git kurduktan sonra su komutlari kullanabilirsin:
+
+```powershell
+cd "$env:USERPROFILE\OneDrive\Masaüstü\alpaca_paper_bot_v22_aday7_91531"
+git init
+git add .
+git commit -m "Add Alpaca paper bot mix_00317"
+git branch -M main
+git remote add origin https://github.com/KULLANICI/REPO.git
+git push -u origin main
+```
+
+`.env`, `state/`, `logs/`, `__pycache__/` ve `app_profile/` repo'ya gitmemelidir.
+
+## 2. GitHub Secrets
+
+Repo Settings -> Secrets and variables -> Actions -> New repository secret:
+
+- `ALPACA_API_KEY`
+- `ALPACA_API_SECRET`
+
+Paper key kullan. Live key kullanma.
+
+## 3. Actions ile Calistirma
+
+Actions -> Alpaca Paper Bot -> Run workflow.
+
+- `mode=dry_run`: sinyal ve emirleri loglar, paper emir gondermez.
+- `mode=execute`: Alpaca paper hesaba emir gonderir.
+- `run_type=auto_window`: once vadesi gelen cikislari kontrol eder, sonra giris penceresindeyse yeni trade arar.
+- `run_type=entry_window`: giris penceresinde yeni trade arar.
+- `run_type=close_due`: Alpaca broker order history'den bugunku bot emirlerini bulur ve vadesi gelen cikislari kapatir.
+- `max_minutes=35`: 35 dakika loop calisir ve sonra temiz cikar.
+
+Zamanlama ve Cron Gecikmesi:
+
+- Stratejinin giris penceresi Turkiye saatiyle yaklasik `16:40-17:00`.
+- GitHub cron bazen saatlerce gec baslayabildigi icin workflow tek saate guvenmez.
+- Hafta ici `12:00-20:50 UTC` arasinda her 10 dakikada kisa `auto_window` kontrolu calisir.
+- Her kontrol once broker order history'den vadesi gelen bot pozisyonlarini kapatmayi dener, sonra giris penceresindeyse yeni trade arar.
+- Bot Alpaca `client_order_id` gecmisini kontrol eder; ayni gun ayni sleeve/sembol icin duplicate open gondermeyi skip eder.
+- Scheduled run'lar varsayilan olarak dry-run calisir. Otomatik paper emir istiyorsan repo variable ekle:
+  - Settings -> Secrets and variables -> Actions -> Variables
+  - `PAPER_BOT_SCHEDULE_EXECUTE=true`
+- ABD yaz/kis saati degisimlerinde GitHub cron UTC oldugu icin schedule'i kontrol et.
+- Kritik not: GitHub Actions gecikebilir veya yogunlukta iptal olabilir. Gercek zamanli islem icin VPS daha guvenilirdir.
+
+## 4. GitHub Actions Siniri
+
+GitHub Actions kalici server degildir. Uzun sureli bot calistirmak icin VPS daha saglamdir.
+
+Actions uygun kullanim:
+
+- market acilis penceresinde 30-40 dakika paper bot calistirmak
+- log ve state artifact almak
+- dry-run smoke test yapmak
+
+VPS uygun kullanim:
+
+- her is gunu otomatik calisma
+- dashboard'u surekli acik tutma
+- state/log kaliciligi

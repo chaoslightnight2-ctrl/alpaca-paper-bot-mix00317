@@ -1,0 +1,117 @@
+name: Alpaca Paper Bot
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry_run logs signals only; execute sends Alpaca paper orders"
+        required: true
+        default: "dry_run"
+        type: choice
+        options:
+          - dry_run
+          - execute
+      max_minutes:
+        description: "How long to keep the bot loop alive. Leave default unless manually testing."
+        required: true
+        default: "0"
+      run_type:
+        description: "auto_window checks entry and exits; entry_window opens new trades; close_due closes due bot trades"
+        required: true
+        default: "auto_window"
+        type: choice
+        options:
+          - auto_window
+          - entry_window
+          - close_due
+  schedule:
+    # GitHub scheduled jobs can start late. Instead of trusting one exact cron,
+    # run short checks every 10 minutes through the US market/paper-bot window.
+    # Each run checks due exits from broker history and then checks entry timing.
+    # Broker client_order_id duplicate guard prevents duplicate opens.
+    - cron: "*/10 12-20 * * 1-5"
+
+jobs:
+  paper-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
+      ALPACA_DATA_FEED: iex
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate config and code
+        run: |
+          python -m py_compile paper_bot.py dashboard.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          cfg = json.loads(Path("strategy_config.json").read_text())
+          assert cfg["trading"]["paper_base_url"] == "https://paper-api.alpaca.markets"
+          assert cfg["trading"].get("paper_only") is True
+          assert cfg["trading"].get("live_trading_enabled") is False
+          assert float(cfg["trading"]["max_total_gross_exposure"]) <= 2.0
+          print("config ok:", cfg["strategy_name"])
+          PY
+
+      - name: Run paper bot window
+        shell: bash
+        run: |
+          MODE="${{ github.event.inputs.mode || '' }}"
+          MAX_MINUTES="${{ github.event.inputs.max_minutes || '0' }}"
+          RUN_TYPE="${{ github.event.inputs.run_type || '' }}"
+          SCHEDULE="${{ github.event.schedule || '' }}"
+
+          if [ -z "$MODE" ]; then
+            if [ "${{ vars.PAPER_BOT_SCHEDULE_EXECUTE || 'false' }}" = "true" ]; then
+              MODE="execute"
+            else
+              MODE="dry_run"
+            fi
+          fi
+
+          if [ -z "$RUN_TYPE" ]; then
+            RUN_TYPE="auto_window"
+          fi
+
+          if [ "$MAX_MINUTES" = "0" ]; then
+            MAX_MINUTES="1"
+          fi
+
+          if [ "$MODE" = "execute" ]; then
+            EXEC_FLAG="--execute"
+          else
+            EXEC_FLAG="--dry-run"
+          fi
+
+          if [ "$RUN_TYPE" = "auto_window" ]; then
+            python paper_bot.py $EXEC_FLAG --close-due-from-broker
+            python paper_bot.py $EXEC_FLAG
+          elif [ "$RUN_TYPE" = "close_due" ]; then
+            if [ "$MAX_MINUTES" = "1" ]; then
+              python paper_bot.py $EXEC_FLAG --close-due-from-broker
+            else
+              python paper_bot.py $EXEC_FLAG --close-due-from-broker --loop --max-minutes "$MAX_MINUTES"
+            fi
+          else
+            python paper_bot.py $EXEC_FLAG --loop --max-minutes "$MAX_MINUTES"
+          fi
+
+      - name: Upload bot logs and state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-bot-runtime
+          path: |
+            logs/
+            state/
+          if-no-files-found: ignore

@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+state/
+logs/
+__pycache__/
+app_profile/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+paper_bot.backup_*.py
+strategy_config.backup_*.json

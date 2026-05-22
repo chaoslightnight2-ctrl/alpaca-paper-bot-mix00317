@@ -1,0 +1,13 @@
+[Unit]
+Description=Alpaca Paper Bot main session guard
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/alpaca-paper-bot
+EnvironmentFile=/etc/alpaca-paper-bot.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/alpaca-paper-bot/.venv/bin/python /opt/alpaca-paper-bot/paper_bot.py --execute --auto-window --loop --max-minutes 430
+TimeoutStartSec=8h
+KillSignal=SIGINT

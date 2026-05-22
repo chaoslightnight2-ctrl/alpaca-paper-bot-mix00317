@@ -1,0 +1,12 @@
+[Unit]
+Description=Start Alpaca Paper Bot close backup guard at 21:10 Europe/Istanbul
+
+[Timer]
+OnCalendar=Mon..Fri 21:10:00
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=true
+Unit=alpaca-paper-bot-close.service
+
+[Install]
+WantedBy=timers.target

@@ -28,19 +28,16 @@ on:
   schedule:
     # GitHub scheduled jobs are best-effort and can be delayed or dropped under load.
     # GitHub documents the start of each hour as high-load time, so avoid :00-:03.
-    # Use America/New_York timezone so US daylight/standard time changes do not
-    # require manual UTC cron edits.
-    # Entry sleeves trigger near 09:40-09:50 New York time.
-    - cron: "4,9,14,19,24,29,34,39,44,49,54 9 * * 1-5"
-      timezone: "America/New_York"
-    - cron: "4,9,14,19 10 * * 1-5"
-      timezone: "America/New_York"
-    # Exit sleeves are due near 14:35 and 15:59 New York time.
-    # Keep checking broker-history closes through 16:19 New York time.
-    - cron: "4,9,14,19,24,29,34,39,44,49,54 14-15 * * 1-5"
-      timezone: "America/New_York"
-    - cron: "4,9,14,19 16 * * 1-5"
-      timezone: "America/New_York"
+    # Use Europe/Istanbul because operations are monitored in Turkey time.
+    # Day guard: 13:00-19:00 TR, weekdays. Last trigger is 18:54 and runs 4 min.
+    - cron: "4,9,14,19,24,29,34,39,44,49,54 13-18 * * 1-5"
+      timezone: "Europe/Istanbul"
+    # Night guard: 23:00-05:00 TR. It crosses midnight, so split weekdays:
+    # 23:04-23:54 Monday-Friday, then 00:04-04:54 Tuesday-Saturday.
+    - cron: "4,9,14,19,24,29,34,39,44,49,54 23 * * 1-5"
+      timezone: "Europe/Istanbul"
+    - cron: "4,9,14,19,24,29,34,39,44,49,54 0-4 * * 2-6"
+      timezone: "Europe/Istanbul"
 
 concurrency:
   group: alpaca-paper-bot
@@ -111,10 +108,7 @@ jobs:
           if [ "$MAX_MINUTES" = "0" ]; then
             if [ "$RUN_TYPE" = "auto_window" ]; then
               case "$SCHEDULE" in
-                "4,9,14,19,24,29,34,39,44,49,54 9 * * 1-5"|"4,9,14,19 10 * * 1-5")
-                  MAX_MINUTES="4"
-                  ;;
-                "4,9,14,19,24,29,34,39,44,49,54 14-15 * * 1-5"|"4,9,14,19 16 * * 1-5")
+                "4,9,14,19,24,29,34,39,44,49,54 13-18 * * 1-5"|"4,9,14,19,24,29,34,39,44,49,54 23 * * 1-5"|"4,9,14,19,24,29,34,39,44,49,54 0-4 * * 2-6")
                   MAX_MINUTES="4"
                   ;;
                 *)

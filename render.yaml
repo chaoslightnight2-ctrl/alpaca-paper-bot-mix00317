@@ -1,0 +1,19 @@
+services:
+  - type: worker
+    name: alpaca-paper-bot-mix00317-worker
+    runtime: python
+    plan: starter
+    region: virginia
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: python paper_bot.py --execute --auto-window --loop --sleep-seconds 10
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.13"
+      - key: ALPACA_DATA_FEED
+        value: iex
+      - key: ALPACA_API_KEY
+        sync: false
+      - key: ALPACA_API_SECRET
+        sync: false

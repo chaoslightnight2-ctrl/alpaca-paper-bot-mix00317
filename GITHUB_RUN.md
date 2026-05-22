@@ -44,7 +44,7 @@ Zamanlama ve Cron Gecikmesi:
 - GitHub cron bazen gec baslayabildigi veya yogunlukta drop olabildigi icin workflow tek saate guvenmez.
 - GitHub dokumani, schedule yogunlukta gecikebilir/dusurulebilir; ozellikle saat baslari yogun oldugu icin farkli dakikalari onerir.
 - Workflow artik `Europe/Istanbul` timezone kullanir; operasyon saatleri dogrudan Turkiye saatidir.
-- Gunduz guard cronlari Turkiye saatiyle `13:04-18:54` arasinda 5 dakikada bir kisa auto-window calistirir. Bu pencere `13:00-19:00` operasyon araligini korur.
+- Gunduz/aksam guard cronlari Turkiye saatiyle `13:04-22:54` arasinda 5 dakikada bir kisa auto-window calistirir. Bu pencere `13:00-23:00` operasyon araligini korur.
 - Gece guard cronlari Turkiye saatiyle `23:04-04:54` arasinda 5 dakikada bir kisa auto-window calistirir. Bu pencere `23:00-05:00` operasyon araligini korur.
 - Cron dakikalari `:04, :09, :14, ... :54` seklindedir; `:00-:03` saat basi yogunlugu bilerek kullanilmaz.
 - Her scheduled run varsayilan olarak 4 dakika yasar. Bu, tek uzun job'a baglanmak yerine cok sayida kisa yakalama denemesi yapar.

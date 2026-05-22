@@ -57,6 +57,19 @@ Zamanlama ve Cron Gecikmesi:
 
 GitHub Actions kalici server degildir. Uzun sureli bot calistirmak icin VPS daha saglamdir.
 
+Bu nedenle bu repoda Windows Task Scheduler local guard da vardir:
+
+```powershell
+.\install_windows_scheduled_tasks.ps1 -Mode execute
+```
+
+Kurulan gorevler:
+
+- `AlpacaPaperBot-MainSessionGuard`: hafta ici 16:15 TR, 430 dakika.
+- `AlpacaPaperBot-CloseBackupGuard`: hafta ici 21:10 TR, 135 dakika.
+
+Bu local guard GitHub cron'a bagli kalmadan `paper_bot.py --execute --auto-window --loop` calistirir. GitHub schedule artik yedek katmandir.
+
 Actions uygun kullanim:
 
 - market acilis penceresinde 30-40 dakika paper bot calistirmak

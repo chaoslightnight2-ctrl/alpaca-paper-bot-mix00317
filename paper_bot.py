@@ -452,6 +452,16 @@ def estimate_reserved_notional(state: dict[str, Any]) -> float:
     return total
 
 
+def broker_position_quantities(alpaca: Alpaca) -> dict[str, int]:
+    quantities: dict[str, int] = {}
+    for pos in alpaca.positions():
+        symbol = str(pos.get("symbol") or "").upper()
+        if not symbol:
+            continue
+        quantities[symbol] = int(abs(float(pos.get("qty") or 0)))
+    return quantities
+
+
 def sleeve_by_id(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {str(sleeve.get("id")): sleeve for sleeve in config.get("sleeves", [])}
 
@@ -545,15 +555,28 @@ def run_once(args: argparse.Namespace) -> None:
     state.setdefault("entered", {})
     log(f"Hesap equity={equity:.2f}, buying_power={buying_power:.2f}, dry_run={args.dry_run}, now_NY={now.isoformat(timespec='seconds')}")
 
+    broker_qty = {} if args.dry_run else broker_position_quantities(alpaca)
+
     # Close before opening new exposure.
     for pos in state["positions"]:
         if pos.get("closed"):
             continue
         if not due_exit(pos, now):
             continue
+        symbol = str(pos["symbol"]).upper()
+        qty = int(pos["qty"])
+        if not args.dry_run:
+            available = broker_qty.get(symbol, 0)
+            if available <= 0:
+                log(f"SKIP state close; broker pozisyon yok: {symbol} key={pos.get('key')}")
+                pos["closed"] = True
+                pos["closed_at"] = now.isoformat()
+                pos["close_reason"] = "broker_position_absent"
+                continue
+            qty = min(qty, available)
         close_side = "sell" if pos["side"] == "long" else "buy"
         client_prefix = str(config.get("trading", {}).get("client_order_prefix", "v22a7"))[:12]
-        submit_or_log(alpaca, args.dry_run, pos["symbol"], int(pos["qty"]), close_side, f"{client_prefix}-{pos['key']}-close")
+        submit_or_log(alpaca, args.dry_run, symbol, qty, close_side, f"{client_prefix}-{pos['key']}-close")
         pos["closed"] = True
         pos["closed_at"] = now.isoformat()
     save_json(state_path(args.dry_run), state)

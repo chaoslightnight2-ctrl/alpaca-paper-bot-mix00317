@@ -1,4 +1,5 @@
 name: Alpaca Paper Bot
+run-name: Alpaca Paper Bot / ${{ github.event_name }} / ${{ github.event.schedule || inputs.run_type || 'manual' }}
 
 on:
   workflow_dispatch:
@@ -56,6 +57,9 @@ jobs:
       ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
       ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
       ALPACA_DATA_FEED: iex
+      PAPER_BOT_HEARTBEAT_START_URL: ${{ secrets.PAPER_BOT_HEARTBEAT_START_URL }}
+      PAPER_BOT_HEARTBEAT_SUCCESS_URL: ${{ secrets.PAPER_BOT_HEARTBEAT_SUCCESS_URL }}
+      PAPER_BOT_HEARTBEAT_FAILURE_URL: ${{ secrets.PAPER_BOT_HEARTBEAT_FAILURE_URL }}
     steps:
       - uses: actions/checkout@v6
 
@@ -65,6 +69,10 @@ jobs:
 
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
+
+      - name: Optional heartbeat start
+        if: env.PAPER_BOT_HEARTBEAT_START_URL != ''
+        run: curl --fail --silent --show-error --max-time 10 "$PAPER_BOT_HEARTBEAT_START_URL"
 
       - name: Validate config and code
         run: |
@@ -125,6 +133,7 @@ jobs:
           fi
 
           echo "mode=$MODE run_type=$RUN_TYPE schedule=$SCHEDULE max_minutes=$MAX_MINUTES"
+          echo "event_name=${{ github.event_name }} run_id=${{ github.run_id }} run_attempt=${{ github.run_attempt }}"
 
           if [ "$RUN_TYPE" = "auto_window" ]; then
             python paper_bot.py $EXEC_FLAG --auto-window --loop --max-minutes "$MAX_MINUTES"
@@ -147,3 +156,11 @@ jobs:
             logs/
             state/
           if-no-files-found: ignore
+
+      - name: Optional heartbeat success
+        if: success() && env.PAPER_BOT_HEARTBEAT_SUCCESS_URL != ''
+        run: curl --fail --silent --show-error --max-time 10 "$PAPER_BOT_HEARTBEAT_SUCCESS_URL"
+
+      - name: Optional heartbeat failure
+        if: failure() && env.PAPER_BOT_HEARTBEAT_FAILURE_URL != ''
+        run: curl --fail --silent --show-error --max-time 10 "$PAPER_BOT_HEARTBEAT_FAILURE_URL"

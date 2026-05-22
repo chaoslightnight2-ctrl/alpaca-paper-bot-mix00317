@@ -48,6 +48,11 @@ Zamanlama ve Cron Gecikmesi:
 - Close guard cronlari New York saatiyle `14:04-16:19` arasinda 5 dakikada bir kisa auto-window calistirir.
 - Cron dakikalari `:04, :09, :14, ... :54` seklindedir; `:00-:03` saat basi yogunlugu bilerek kullanilmaz.
 - Her scheduled run varsayilan olarak 4 dakika yasar. Bu, tek uzun job'a baglanmak yerine cok sayida kisa yakalama denemesi yapar.
+- Workflow run adi schedule stringini gosterir; Actions listesinden hangi cronun tetikledigini daha kolay gorursun.
+- Opsiyonel heartbeat secretlari eklenirse cron'un baslayip baslamadigi ve basari/hata sonucu disaridan izlenebilir:
+  - `PAPER_BOT_HEARTBEAT_START_URL`
+  - `PAPER_BOT_HEARTBEAT_SUCCESS_URL`
+  - `PAPER_BOT_HEARTBEAT_FAILURE_URL`
 - Her kontrol once broker order history'den vadesi gelen bot pozisyonlarini kapatmayi dener, sonra giris penceresindeyse yeni trade arar.
 - Bot Alpaca `client_order_id` gecmisini kontrol eder; ayni gun ayni sleeve/sembol icin duplicate open gondermeyi skip eder.
 - Scheduled run'lar varsayilan olarak dry-run calisir. Otomatik paper emir istiyorsan repo variable ekle:

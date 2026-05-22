@@ -42,10 +42,11 @@ Zamanlama ve Cron Gecikmesi:
 
 - Stratejinin giris penceresi Turkiye saatiyle yaklasik `16:40-17:00`.
 - GitHub cron bazen gec baslayabildigi veya yogunlukta drop olabildigi icin workflow tek saate guvenmez.
-- GitHub dokumani, schedule yogunlukta gecikebilir/dusurulebilir ve bunu azaltmak icin saatin farkli dakikalarina planlama onerir.
-- Workflow artik hem ABD yaz saati hem ABD kis saati icin kapsama verir.
-- Entry guard cronlari UTC `13:02-15:17` arasinda 5 dakikada bir kisa auto-window calistirir.
-- Close guard cronlari UTC `18:02-21:12` arasinda 5 dakikada bir kisa auto-window calistirir.
+- GitHub dokumani, schedule yogunlukta gecikebilir/dusurulebilir; ozellikle saat baslari yogun oldugu icin farkli dakikalari onerir.
+- Workflow artik `America/New_York` timezone kullanir; ABD yaz/kis saati degisiminde UTC cron elle duzeltilmez.
+- Entry guard cronlari New York saatiyle `09:04-10:19` arasinda 5 dakikada bir kisa auto-window calistirir.
+- Close guard cronlari New York saatiyle `14:04-16:19` arasinda 5 dakikada bir kisa auto-window calistirir.
+- Cron dakikalari `:04, :09, :14, ... :54` seklindedir; `:00-:03` saat basi yogunlugu bilerek kullanilmaz.
 - Her scheduled run varsayilan olarak 4 dakika yasar. Bu, tek uzun job'a baglanmak yerine cok sayida kisa yakalama denemesi yapar.
 - Her kontrol once broker order history'den vadesi gelen bot pozisyonlarini kapatmayi dener, sonra giris penceresindeyse yeni trade arar.
 - Bot Alpaca `client_order_id` gecmisini kontrol eder; ayni gun ayni sleeve/sembol icin duplicate open gondermeyi skip eder.

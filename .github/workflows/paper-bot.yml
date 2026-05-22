@@ -26,23 +26,27 @@ on:
           - close_due
   schedule:
     # GitHub scheduled jobs are best-effort and can be delayed or dropped under load.
-    # Use dense, short guard runs on off-peak minute values instead of relying on one exact start.
-    # Entry sleeves trigger near 09:40-09:50 New York time:
-    # - 13:40-13:50 UTC during US daylight time
-    # - 14:40-14:50 UTC during US standard time
-    # The extra 13:00-15:17 UTC coverage absorbs common GitHub schedule delays.
-    - cron: "2,7,12,17,22,27,32,37,42,47,52,57 13-14 * * 1-5"
-    - cron: "2,7,12,17 15 * * 1-5"
-    # Exit sleeves are due near 14:35 and 15:59 New York time:
-    # - 18:35 and 19:59 UTC during US daylight time
-    # - 19:35 and 20:59 UTC during US standard time
-    # The extra 18:00-21:12 UTC coverage keeps trying broker-history closes.
-    - cron: "2,7,12,17,22,27,32,37,42,47,52,57 18-20 * * 1-5"
-    - cron: "2,7,12 21 * * 1-5"
+    # GitHub documents the start of each hour as high-load time, so avoid :00-:03.
+    # Use America/New_York timezone so US daylight/standard time changes do not
+    # require manual UTC cron edits.
+    # Entry sleeves trigger near 09:40-09:50 New York time.
+    - cron: "4,9,14,19,24,29,34,39,44,49,54 9 * * 1-5"
+      timezone: "America/New_York"
+    - cron: "4,9,14,19 10 * * 1-5"
+      timezone: "America/New_York"
+    # Exit sleeves are due near 14:35 and 15:59 New York time.
+    # Keep checking broker-history closes through 16:19 New York time.
+    - cron: "4,9,14,19,24,29,34,39,44,49,54 14-15 * * 1-5"
+      timezone: "America/New_York"
+    - cron: "4,9,14,19 16 * * 1-5"
+      timezone: "America/New_York"
 
 concurrency:
   group: alpaca-paper-bot
   cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   paper-bot:
@@ -99,10 +103,10 @@ jobs:
           if [ "$MAX_MINUTES" = "0" ]; then
             if [ "$RUN_TYPE" = "auto_window" ]; then
               case "$SCHEDULE" in
-                "2,7,12,17,22,27,32,37,42,47,52,57 13-14 * * 1-5"|"2,7,12,17 15 * * 1-5")
+                "4,9,14,19,24,29,34,39,44,49,54 9 * * 1-5"|"4,9,14,19 10 * * 1-5")
                   MAX_MINUTES="4"
                   ;;
-                "2,7,12,17,22,27,32,37,42,47,52,57 18-20 * * 1-5"|"2,7,12 21 * * 1-5")
+                "4,9,14,19,24,29,34,39,44,49,54 14-15 * * 1-5"|"4,9,14,19 16 * * 1-5")
                   MAX_MINUTES="4"
                   ;;
                 *)

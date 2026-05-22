@@ -48,6 +48,7 @@ Zamanlama ve Cron Gecikmesi:
 - Close guard cronlari New York saatiyle `14:04-16:19` arasinda 5 dakikada bir kisa auto-window calistirir.
 - Cron dakikalari `:04, :09, :14, ... :54` seklindedir; `:00-:03` saat basi yogunlugu bilerek kullanilmaz.
 - Her scheduled run varsayilan olarak 4 dakika yasar. Bu, tek uzun job'a baglanmak yerine cok sayida kisa yakalama denemesi yapar.
+- GitHub run basladiktan sonra bot 10 saniyede bir kontrol eder. Cron exact olmasa bile calisan guard icinde giris/cikis yakalama daha hassas olur.
 - Workflow run adi schedule stringini gosterir; Actions listesinden hangi cronun tetikledigini daha kolay gorursun.
 - Opsiyonel heartbeat secretlari eklenirse cron'un baslayip baslamadigi ve basari/hata sonucu disaridan izlenebilir:
   - `PAPER_BOT_HEARTBEAT_START_URL`

@@ -676,6 +676,7 @@ def main() -> None:
     parser.add_argument("--allow-late-entry", action="store_true", help="Günün giriş saatleri geçtiyse de sinyal üret. Test için kullan.")
     parser.add_argument("--now", help="Test için ISO zaman override, örn 2026-05-20T10:00:00-04:00.")
     parser.add_argument("--max-minutes", type=float, default=0.0, help="Loop modunda bu dakika dolunca temiz cik. GitHub Actions icin.")
+    parser.add_argument("--sleep-seconds", type=float, default=30.0, help="Loop modunda kontroller arasinda beklenecek saniye.")
     parser.add_argument("--close-due-from-broker", action="store_true", help="State dosyasi olmadan Alpaca order history'den bugunku bot pozisyonlarini kapat.")
     parser.add_argument("--auto-window", action="store_true", help="Her turda broker cikislarini ve yeni giris penceresini birlikte kontrol et.")
     args = parser.parse_args()
@@ -699,7 +700,7 @@ def main() -> None:
         if args.max_minutes and (time.monotonic() - started) >= args.max_minutes * 60:
             log(f"max-minutes doldu ({args.max_minutes}); bot temiz cikiyor.")
             break
-        time.sleep(30)
+        time.sleep(max(1.0, float(args.sleep_seconds)))
 
 
 if __name__ == "__main__":

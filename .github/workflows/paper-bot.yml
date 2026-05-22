@@ -136,15 +136,15 @@ jobs:
           echo "event_name=${{ github.event_name }} run_id=${{ github.run_id }} run_attempt=${{ github.run_attempt }}"
 
           if [ "$RUN_TYPE" = "auto_window" ]; then
-            python paper_bot.py $EXEC_FLAG --auto-window --loop --max-minutes "$MAX_MINUTES"
+            python paper_bot.py $EXEC_FLAG --auto-window --loop --max-minutes "$MAX_MINUTES" --sleep-seconds 10
           elif [ "$RUN_TYPE" = "close_due" ]; then
             if [ "$MAX_MINUTES" = "1" ]; then
               python paper_bot.py $EXEC_FLAG --close-due-from-broker
             else
-              python paper_bot.py $EXEC_FLAG --close-due-from-broker --loop --max-minutes "$MAX_MINUTES"
+              python paper_bot.py $EXEC_FLAG --close-due-from-broker --loop --max-minutes "$MAX_MINUTES" --sleep-seconds 10
             fi
           else
-            python paper_bot.py $EXEC_FLAG --loop --max-minutes "$MAX_MINUTES"
+            python paper_bot.py $EXEC_FLAG --loop --max-minutes "$MAX_MINUTES" --sleep-seconds 10
           fi
 
       - name: Upload bot logs and state

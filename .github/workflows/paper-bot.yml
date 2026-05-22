@@ -26,11 +26,19 @@ on:
           - close_due
   schedule:
     # GitHub scheduled jobs are best-effort and can be delayed or dropped under load.
-    # Use off-peak minute values and long guard windows instead of relying on exact starts.
-    # Entry windows are around 13:40-14:00 UTC while Turkey is UTC+3 and US market is EDT.
-    - cron: "23,41,53 13 * * 1-5"
-    # Exit windows are around 18:35 UTC and 19:59 UTC for this strategy.
-    - cron: "17,47 18-19 * * 1-5"
+    # Use dense, short guard runs on off-peak minute values instead of relying on one exact start.
+    # Entry sleeves trigger near 09:40-09:50 New York time:
+    # - 13:40-13:50 UTC during US daylight time
+    # - 14:40-14:50 UTC during US standard time
+    # The extra 13:00-15:17 UTC coverage absorbs common GitHub schedule delays.
+    - cron: "2,7,12,17,22,27,32,37,42,47,52,57 13-14 * * 1-5"
+    - cron: "2,7,12,17 15 * * 1-5"
+    # Exit sleeves are due near 14:35 and 15:59 New York time:
+    # - 18:35 and 19:59 UTC during US daylight time
+    # - 19:35 and 20:59 UTC during US standard time
+    # The extra 18:00-21:12 UTC coverage keeps trying broker-history closes.
+    - cron: "2,7,12,17,22,27,32,37,42,47,52,57 18-20 * * 1-5"
+    - cron: "2,7,12 21 * * 1-5"
 
 concurrency:
   group: alpaca-paper-bot
@@ -91,11 +99,11 @@ jobs:
           if [ "$MAX_MINUTES" = "0" ]; then
             if [ "$RUN_TYPE" = "auto_window" ]; then
               case "$SCHEDULE" in
-                "23,41,53 13 * * 1-5")
-                  MAX_MINUTES="55"
+                "2,7,12,17,22,27,32,37,42,47,52,57 13-14 * * 1-5"|"2,7,12,17 15 * * 1-5")
+                  MAX_MINUTES="4"
                   ;;
-                "17,47 18-19 * * 1-5")
-                  MAX_MINUTES="35"
+                "2,7,12,17,22,27,32,37,42,47,52,57 18-20 * * 1-5"|"2,7,12 21 * * 1-5")
+                  MAX_MINUTES="4"
                   ;;
                 *)
                   MAX_MINUTES="8"

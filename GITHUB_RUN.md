@@ -43,15 +43,16 @@ Zamanlama ve Cron Gecikmesi:
 - Stratejinin giris penceresi Turkiye saatiyle yaklasik `16:40-17:00`.
 - GitHub cron bazen gec baslayabildigi veya yogunlukta drop olabildigi icin workflow tek saate guvenmez.
 - GitHub dokumani, schedule yogunlukta gecikebilir/dusurulebilir ve bunu azaltmak icin saatin farkli dakikalarina planlama onerir.
-- Entry guard cronlari `13:23`, `13:41`, `13:53` UTC'de tetiklenir; her biri auto-window'u 55 dakikaya kadar ayakta tutabilir.
-- Close guard cronlari `18:17`, `18:47`, `19:17`, `19:47` UTC'de tetiklenir; her biri auto-window'u 35 dakikaya kadar ayakta tutabilir.
+- Workflow artik hem ABD yaz saati hem ABD kis saati icin kapsama verir.
+- Entry guard cronlari UTC `13:02-15:17` arasinda 5 dakikada bir kisa auto-window calistirir.
+- Close guard cronlari UTC `18:02-21:12` arasinda 5 dakikada bir kisa auto-window calistirir.
+- Her scheduled run varsayilan olarak 4 dakika yasar. Bu, tek uzun job'a baglanmak yerine cok sayida kisa yakalama denemesi yapar.
 - Her kontrol once broker order history'den vadesi gelen bot pozisyonlarini kapatmayi dener, sonra giris penceresindeyse yeni trade arar.
 - Bot Alpaca `client_order_id` gecmisini kontrol eder; ayni gun ayni sleeve/sembol icin duplicate open gondermeyi skip eder.
 - Scheduled run'lar varsayilan olarak dry-run calisir. Otomatik paper emir istiyorsan repo variable ekle:
   - Settings -> Secrets and variables -> Actions -> Variables
   - `PAPER_BOT_SCHEDULE_EXECUTE=true`
-- ABD yaz/kis saati degisimlerinde GitHub cron UTC oldugu icin schedule'i kontrol et.
-- Kritik not: GitHub Actions gecikebilir veya yogunlukta iptal olabilir. Gercek zamanli islem icin VPS daha guvenilirdir.
+- Kritik not: GitHub Actions yine yuzde yuz garanti vermez. Bu ayar, gecikme/drop riskini azaltan en agresif GitHub Actions guard katmanidir.
 
 ## 4. GitHub Actions Siniri
 

@@ -25,11 +25,12 @@ on:
           - entry_window
           - close_due
   schedule:
-    # GitHub scheduled jobs can start late. Instead of trusting one exact cron,
-    # run short looped checks every 5 minutes through the US market/paper-bot window.
-    # Each run checks due exits from broker history and then checks entry timing.
-    # Broker client_order_id duplicate guard prevents duplicate opens.
-    - cron: "*/5 12-20 * * 1-5"
+    # GitHub scheduled jobs are best-effort and can be delayed or dropped under load.
+    # Use off-peak minute values and long guard windows instead of relying on exact starts.
+    # Entry windows are around 13:40-14:00 UTC while Turkey is UTC+3 and US market is EDT.
+    - cron: "23,41,53 13 * * 1-5"
+    # Exit windows are around 18:35 UTC and 19:59 UTC for this strategy.
+    - cron: "17,47 18-19 * * 1-5"
 
 concurrency:
   group: alpaca-paper-bot
@@ -38,7 +39,7 @@ concurrency:
 jobs:
   paper-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 70
     env:
       ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
       ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
@@ -89,7 +90,17 @@ jobs:
 
           if [ "$MAX_MINUTES" = "0" ]; then
             if [ "$RUN_TYPE" = "auto_window" ]; then
-              MAX_MINUTES="8"
+              case "$SCHEDULE" in
+                "23,41,53 13 * * 1-5")
+                  MAX_MINUTES="55"
+                  ;;
+                "17,47 18-19 * * 1-5")
+                  MAX_MINUTES="35"
+                  ;;
+                *)
+                  MAX_MINUTES="8"
+                  ;;
+              esac
             else
               MAX_MINUTES="1"
             fi
@@ -100,6 +111,8 @@ jobs:
           else
             EXEC_FLAG="--dry-run"
           fi
+
+          echo "mode=$MODE run_type=$RUN_TYPE schedule=$SCHEDULE max_minutes=$MAX_MINUTES"
 
           if [ "$RUN_TYPE" = "auto_window" ]; then
             python paper_bot.py $EXEC_FLAG --auto-window --loop --max-minutes "$MAX_MINUTES"
